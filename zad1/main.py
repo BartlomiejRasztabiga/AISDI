@@ -1,4 +1,7 @@
+import os
+import re
 import sys
+from string import ascii_letters
 
 alphabet = {
     'A': '.-',
@@ -28,36 +31,48 @@ alphabet = {
     'Y': '-.--',
     'Z': '--..'
 }
+allowed_chars = ascii_letters + ' '
 
 
 def file_to_morse(filename):
-    pass
+    lines = read_file(filename)
+    return strings_to_morse(lines)
 
 
 def strings_to_morse(strings):
-    pass
+    return os.linesep.join(map(string_to_morse, strings))
 
 
 def string_to_morse(string):
-    pass
+    string_without_extra_chars = "".join(filter(lambda x: x in allowed_chars, string))
+    string_without_extra_spaces = re.sub(' +', ' ', string_without_extra_chars)
+    return " ".join(map(char_to_morse, string_without_extra_spaces))
 
 
 def char_to_morse(char):
     char_upper = char.upper()
+    if char_upper.isspace():
+        return ' / '
     if char_upper in alphabet:
         return alphabet[char_upper]
     else:
-        return None
+        return ''
 
 
 def read_file(filename):
-    pass
+    with open(filename, 'r') as file:
+        return file.readlines()
 
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("No filename given")
+        print("No file given.")
         exit(-1)
     else:
         filename = sys.argv[1]
-        file_to_morse(filename)
+        try:
+            morse = file_to_morse(filename)
+            print(morse)
+        except FileNotFoundError:
+            print("Given file doesn't exist.")
+            exit(-1)
