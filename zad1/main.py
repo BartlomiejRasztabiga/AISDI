@@ -39,14 +39,27 @@ def file_to_morse(filename):
     return strings_to_morse(lines)
 
 
+def read_file(filename):
+    with open(filename, 'r') as file:
+        return file.readlines()
+
+
 def strings_to_morse(strings):
     return os.linesep.join(map(string_to_morse, strings))
 
 
 def string_to_morse(string):
-    string_without_extra_chars = "".join(filter(lambda x: x in allowed_chars, string))
-    string_without_extra_spaces = re.sub(' +', ' ', string_without_extra_chars)
-    return " ".join(map(char_to_morse, string_without_extra_spaces))
+    string = filter_allowed_chars(string)
+    string = remove_extra_spaces(string)
+    return " ".join(map(char_to_morse, string))
+
+
+def filter_allowed_chars(string):
+    return "".join(filter(lambda x: x in allowed_chars, string))
+
+
+def remove_extra_spaces(string):
+    return re.sub(' +', ' ', string)
 
 
 def char_to_morse(char):
@@ -57,11 +70,6 @@ def char_to_morse(char):
         return alphabet[char_upper]
     else:
         return ''
-
-
-def read_file(filename):
-    with open(filename, 'r') as file:
-        return file.readlines()
 
 
 if __name__ == '__main__':
