@@ -1,16 +1,63 @@
-# This is a sample Python script.
+import sys
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+alphabet = {
+    'A': '.-',
+    'B': '-...',
+    'C': '-.-.',
+    'D': '-..',
+    'E': '.',
+    'F': '..-.',
+    'G': '--.',
+    'H': '....',
+    'I': '..',
+    'J': '.---',
+    'K': '-.-',
+    'L': '.-..',
+    'M': '--',
+    'N': '-.',
+    'O': '---',
+    'P': '.--.',
+    'Q': '--.-',
+    'R': '.-.',
+    'S': '...',
+    'T': '-',
+    'U': '..-',
+    'V': '...-',
+    'W': '.--',
+    'X': '-..-',
+    'Y': '-.--',
+    'Z': '--..'
+}
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+8 to toggle the breakpoint.
+def file_to_morse(filename):
+    pass
 
 
-# Press the green button in the gutter to run the script.
+def strings_to_morse(strings):
+    pass
+
+
+def string_to_morse(string):
+    pass
+
+
+def char_to_morse(char):
+    char_upper = char.upper()
+    if char_upper in alphabet:
+        return alphabet[char_upper]
+    else:
+        return None
+
+
+def read_file(filename):
+    pass
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    if len(sys.argv) < 2:
+        print("No filename given")
+        exit(-1)
+    else:
+        filename = sys.argv[1]
+        file_to_morse(filename)
