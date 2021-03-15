@@ -65,7 +65,7 @@ def remove_extra_spaces(string):
 def char_to_morse(char):
     char_upper = char.upper()
     if char_upper.isspace():
-        return ' / '
+        return '/'
     if char_upper in alphabet:
         return alphabet[char_upper]
     else:

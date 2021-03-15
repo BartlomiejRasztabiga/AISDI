@@ -8,7 +8,7 @@ def test_char_to_morse():
     assert char_to_morse('i') == '..'
     assert char_to_morse('t') == '-'
     assert char_to_morse('i') == '..'
-    assert char_to_morse(' ') == ' / '
+    assert char_to_morse(' ') == '/'
     assert char_to_morse('p') == '.--.'
     assert char_to_morse('w') == '.--'
 
