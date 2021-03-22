@@ -9,5 +9,6 @@ before_script:
 test:
   stage: test
   script:
-    - pip install -r */requirements.txt
+    - pip install -r zad1/requirements.txt
+    - pip install -r zad2/requirements.txt
     - pytest
