@@ -19,7 +19,7 @@ def main():
 def compare_algorithms(filename):
     lines = read_file(filename)
 
-    count = [100, 1000, 10000, 100000, 1000000]
+    count = [100, 1000, 10000, 100000]
     for n in count:
         print("Results for {} words: {}".format(n, run_algorithms(lines, n)))
 
