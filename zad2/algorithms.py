@@ -1,24 +1,4 @@
-def _merge(left, right):
-    result = []
-    i = 0
-    j = 0
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            result.append(left[i])
-            i += 1
-        else:
-            result.append(right[j])
-            j += 1
-
-    while i < len(left):
-        result.append(left[i])
-        i += 1
-
-    while j < len(right):
-        result.append(right[j])
-        j += 1
-
-    return result
+from utils import merge
 
 
 def merge_sort(arr):
@@ -29,7 +9,7 @@ def merge_sort(arr):
 
     left = merge_sort(arr[:mid_ix])
     right = merge_sort(arr[mid_ix:])
-    return _merge(left, right)
+    return merge(left, right)
 
 
 def quick_sort(arr):
