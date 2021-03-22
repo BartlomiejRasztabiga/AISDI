@@ -10,7 +10,7 @@ source venv/bin/activate
 
 # Uruchomienie programu
 ```bash
-python main.py ???
+python main.py pan-tadeusz.txt
 ```
 
 # Uruchomienie testów
