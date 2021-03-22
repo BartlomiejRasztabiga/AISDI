@@ -23,6 +23,8 @@ def compare_algorithms(filename):
     for n in count:
         print("Results for {} words: {}".format(n, run_algorithms(lines, n)))
 
+    # TODO add chart here
+
 
 def run_algorithms(lines, n):
     arr = get_first_n_words(lines, n)
