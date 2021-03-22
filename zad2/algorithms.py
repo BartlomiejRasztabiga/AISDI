@@ -14,7 +14,7 @@ def merge_sort(arr):
 
 def quick_sort(arr):
     if len(arr) < 2:
-        return arr
+        return arr  # already sorted
 
     pivot = arr[0]
     less = [x for x in arr if x < pivot]
