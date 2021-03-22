@@ -20,7 +20,9 @@ pytest test_main.py
 
 ## Podział pracy
 Piotr Brzeziński:
--
+- bubble sort
+- selection sort
 
 Bartłomiej Rasztabiga:
--
+- merge sort
+- quick sort
