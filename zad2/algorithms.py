@@ -1,4 +1,4 @@
-def merge(left, right):
+def _merge(left, right):
     result = []
     i = 0
     j = 0
@@ -29,7 +29,7 @@ def merge_sort(arr):
 
     left = merge_sort(arr[:mid_ix])
     right = merge_sort(arr[mid_ix:])
-    return merge(left, right)
+    return _merge(left, right)
 
 
 def quick_sort(arr):
