@@ -23,7 +23,7 @@ def merge(left, right):
 
 def merge_sort(arr):
     if len(arr) < 2:
-        return arr[:]  # already sorted, copy arr to avoid reference issues
+        return arr  # already sorted
 
     mid_ix = len(arr) // 2
 
