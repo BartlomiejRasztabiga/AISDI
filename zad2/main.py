@@ -68,7 +68,6 @@ def run_algorithm(algo_name, arr):
 def get_first_n_words(lines, n):
     selected_words = []
 
-    # TODO refactor to list comprehension?
     for line in lines:
         for word in line.strip().split():
             if len(selected_words) >= n:
