@@ -1,6 +1,9 @@
 # Link do repozytorium
 [https://gitlab-stud.elka.pw.edu.pl/brasztab/brzezinski-rasztabiga-aisdi-lab]()
 
+# Wynikowy wykres
+![graph](graph.png)
+
 # Przygotowanie wirtualnego środowiska
 ```bash
 pip install virtualenv

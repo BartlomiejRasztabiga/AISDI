@@ -1,6 +1,7 @@
 import sys
 import timeit
 import algorithms
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -19,18 +20,35 @@ def main():
 def compare_algorithms(filename):
     lines = read_file(filename)
 
-    count = [100, 1000, 10000, 100000]
-    for n in count:
-        print("Results for {} words: {}".format(n, run_algorithms(lines, n)))
+    # 1000, 2000, ..., 10000
+    count = [(n + 1) * 1000 for n in range(10)]
+    times = {}
 
-    # TODO add chart here
+    for n in count:
+        results = run_algorithms(lines, n)
+        print("Results for {} words: {}".format(n, results))
+        for algorithm, time in results.items():
+            if algorithm not in times.keys():
+                times[algorithm] = []
+            times[algorithm].append(time)
+
+    for algorithm, results in times.items():
+        plt.plot(count, results, label=algorithm)
+
+    plt.xlabel('list length (words)')
+    plt.ylabel('time (s)')
+    plt.title('Time needed for each algorithm to sort n elements')
+    plt.xticks(count)
+    plt.legend()
+    plt.grid()
+    plt.savefig('graph.png')
 
 
 def run_algorithms(lines, n):
     arr = get_first_n_words(lines, n)
 
-    algorithm_functions = ["merge_sort", "quick_sort"]  # TODO add other algorithms
-    num_of_repetitions = 1000  # num of repetitions to get avg time
+    algorithm_functions = ["merge_sort", "quick_sort", "bubble_sort", "selection_sort"]
+    num_of_repetitions = 3  # num of repetitions to get avg time
     time_results = {}
 
     for algorithm in algorithm_functions:
@@ -50,7 +68,6 @@ def run_algorithm(algo_name, arr):
 def get_first_n_words(lines, n):
     selected_words = []
 
-    # TODO refactor to list comprehension?
     for line in lines:
         for word in line.strip().split():
             if len(selected_words) >= n:
@@ -61,7 +78,7 @@ def get_first_n_words(lines, n):
 
 
 def read_file(filename):
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding="utf-8") as file:
         return file.readlines()
 
 
