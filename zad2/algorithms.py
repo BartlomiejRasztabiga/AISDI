@@ -29,3 +29,28 @@ def quick_sort(arr):
             greater.append(x)
 
     return quick_sort(less) + equal + quick_sort(greater)
+
+
+def insertion_sort(arr):
+    if len(arr) < 2:
+        return arr  # already sorted
+
+    for i in range(1, len(arr)):
+        key = arr[i]
+        pos = i - 1
+        while pos >= 0 and key < arr[pos]:
+            arr[pos + 1] = arr[pos]
+            pos -= 1
+        arr[pos + 1] = key
+    return arr
+
+
+def bubble_sort(arr):
+    if len(arr) < 2:
+        return arr  # already sorted
+
+    for i in range(len(arr)):
+        for j in range(0, len(arr) - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
