@@ -61,7 +61,7 @@ def get_first_n_words(lines, n):
 
 
 def read_file(filename):
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding="utf-8") as file:
         return file.readlines()
 
 
