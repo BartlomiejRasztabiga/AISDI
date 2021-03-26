@@ -31,17 +31,14 @@ def quick_sort(arr):
     return quick_sort(less) + equal + quick_sort(greater)
 
 
-def insertion_sort(arr):
-    if len(arr) < 2:
-        return arr  # already sorted
-
-    for i in range(1, len(arr)):
-        key = arr[i]
-        pos = i - 1
-        while pos >= 0 and key < arr[pos]:
-            arr[pos + 1] = arr[pos]
-            pos -= 1
-        arr[pos + 1] = key
+def selection_sort(arr):
+    for i in range(len(arr) - 1):
+        minimum = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[minimum]:
+                minimum = j
+        if minimum != i:
+            arr[i], arr[minimum] = arr[minimum], arr[i]
     return arr
 
 

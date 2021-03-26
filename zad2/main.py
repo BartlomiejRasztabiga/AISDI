@@ -47,7 +47,7 @@ def compare_algorithms(filename):
 def run_algorithms(lines, n):
     arr = get_first_n_words(lines, n)
 
-    algorithm_functions = ["merge_sort", "quick_sort", "bubble_sort", "insertion_sort"]
+    algorithm_functions = ["merge_sort", "quick_sort", "bubble_sort", "selection_sort"]
     num_of_repetitions = 3  # num of repetitions to get avg time
     time_results = {}
 
