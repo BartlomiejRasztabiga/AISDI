@@ -34,7 +34,7 @@ def run_algorithms(lines, n):
     time_results = {}
 
     for algorithm in algorithm_functions:
-        timer = timeit.Timer(lambda _algorithm=algorithm: run_algorithm(_algorithm, arr))
+        timer = timeit.Timer(lambda _algorithm=algorithm: run_algorithm(_algorithm, arr[:]))
         time = timer.timeit(num_of_repetitions)
         time_results[algorithm] = time / num_of_repetitions
 
