@@ -19,7 +19,8 @@ def main():
 def compare_algorithms(filename):
     lines = read_file(filename)
 
-    count = [100, 1000, 10000, 100000]
+    # 1000, 2000, ..., 10000
+    count = [(n + 1) * 1000 for n in range(10)]
     for n in count:
         print("Results for {} words: {}".format(n, run_algorithms(lines, n)))
 
@@ -30,7 +31,7 @@ def run_algorithms(lines, n):
     arr = get_first_n_words(lines, n)
 
     algorithm_functions = ["merge_sort", "quick_sort", "bubble_sort", "insertion_sort"]
-    num_of_repetitions = 1000  # num of repetitions to get avg time
+    num_of_repetitions = 10  # num of repetitions to get avg time
     time_results = {}
 
     for algorithm in algorithm_functions:
