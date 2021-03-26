@@ -1,6 +1,7 @@
 import sys
 import timeit
 import algorithms
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -21,17 +22,33 @@ def compare_algorithms(filename):
 
     # 1000, 2000, ..., 10000
     count = [(n + 1) * 1000 for n in range(10)]
-    for n in count:
-        print("Results for {} words: {}".format(n, run_algorithms(lines, n)))
+    times = {}
 
-    # TODO add chart here
+    for n in count:
+        results = run_algorithms(lines, n)
+        print("Results for {} words: {}".format(n, results))
+        for algorithm, time in results.items():
+            if algorithm not in times.keys():
+                times[algorithm] = []
+            times[algorithm].append(time)
+
+    for algorithm, results in times.items():
+        plt.plot(count, results, label=algorithm)
+
+    plt.xlabel('list length (words)')
+    plt.ylabel('time (s)')
+    plt.title('Time needed for each algorithm to sort n elements')
+    plt.xticks(count)
+    plt.legend()
+    plt.grid()
+    plt.savefig('algorithms.png')
 
 
 def run_algorithms(lines, n):
     arr = get_first_n_words(lines, n)
 
     algorithm_functions = ["merge_sort", "quick_sort", "bubble_sort", "insertion_sort"]
-    num_of_repetitions = 10  # num of repetitions to get avg time
+    num_of_repetitions = 3  # num of repetitions to get avg time
     time_results = {}
 
     for algorithm in algorithm_functions:
