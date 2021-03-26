@@ -41,7 +41,7 @@ def compare_algorithms(filename):
     plt.xticks(count)
     plt.legend()
     plt.grid()
-    plt.savefig('algorithms.png')
+    plt.savefig('graph.png')
 
 
 def run_algorithms(lines, n):
