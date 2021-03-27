@@ -25,7 +25,9 @@ pytest test_main.py
 Piotr Brzeziński:
 - bubble sort
 - selection sort
+- wykres zależności czasu sortowania od ilości elementów
 
 Bartłomiej Rasztabiga:
 - merge sort
 - quick sort
+- wyliczanie czasu sortowania dla algorytmów
