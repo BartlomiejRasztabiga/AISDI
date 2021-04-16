@@ -68,6 +68,31 @@ class TreeNode:
         """
         return self.parent is None
 
+    def left_subtree_height(self) -> int:
+        height = 0
+        node = self.left
+        while node:
+            height += 1
+            node = node.left
+        return height
+
+    def right_subtree_height(self) -> int:
+        height = 0
+        node = self.right
+        while node:
+            height += 1
+            node = node.right
+        return height
+
+    def height(self) -> int:
+        return 1 + max(self.left_subtree_height(), self.right_subtree_height())
+
+    def calculate_balance(self) -> int:
+        left_height = self.left.height() if self.left else 0
+        right_height = self.right.height() if self.right else 0
+        self.balance = right_height - left_height
+        return self.balance
+
 
 class BST:
     def __init__(self, lst=None, root=None):
@@ -220,7 +245,16 @@ class AVL(BST):
         pass
 
     def insert_node(self, item):
-        pass
+        new_node = super().insert_node(item)
+        self._rebalance_on_insert(new_node)
+        return new_node
 
     def remove_node(self, item):
-        pass
+        removed_node_parent = super().remove_node(item)
+        previous_balance = removed_node_parent.balance
+        
+        removed_node_parent.calculate_balance()
+        if previous_balance != 0 or removed_node_parent.balance not in {-1, 1}:
+            self._rebalance_on_remove(removed_node_parent)
+
+        return removed_node_parent
