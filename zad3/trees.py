@@ -83,6 +83,12 @@ class TreeNode:
         self.balance = right_height - left_height
         return self.balance
 
+    def has_duplicates(self):
+        """
+        Returns True if node has duplicates
+        """
+        return self.duplicates > 0
+
 
 class BST:
     def __init__(self, lst=None, root=None):
@@ -141,9 +147,14 @@ class BST:
         """
         Removes an element from the tree.
         If this item had duplicates, then its duplicates count is decremented.
-        Returns parent of the deleted node.
+        Returns parent of the deleted node or None if item had duplicates.
         """
         node = self.find_node(item)
+
+        # if node had duplicates, decrement count and return
+        if node.has_duplicates():
+            node.duplicates -= 1
+            return None
 
         # item not in the tree, throw exception
         if node is None:
@@ -222,16 +233,22 @@ class BST:
 class AVL(BST):
     def insert_node(self, item):
         new_node = super().insert_node(item)
-        self._rebalance_on_insert(new_node)
+
+        # if new node is unique, rebalance
+        if not new_node.has_duplicates():
+            self._rebalance_on_insert(new_node)
+
         return new_node
 
     def remove_node(self, item):
         removed_node_parent = super().remove_node(item)
-        previous_balance = removed_node_parent.balance
 
-        removed_node_parent.calculate_balance()
-        if previous_balance != 0 or removed_node_parent.balance not in {-1, 1}:
-            self._rebalance_on_remove(removed_node_parent)
+        if removed_node_parent:
+            previous_balance = removed_node_parent.balance
+
+            removed_node_parent.calculate_balance()
+            if previous_balance != 0 or removed_node_parent.balance not in {-1, 1}:
+                self._rebalance_on_remove(removed_node_parent)
 
         return removed_node_parent
 
