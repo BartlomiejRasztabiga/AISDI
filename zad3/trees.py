@@ -69,27 +69,17 @@ class TreeNode:
         return self.parent is None
 
     def left_subtree_height(self) -> int:
-        height = 0
-        node = self.left
-        while node:
-            height += 1
-            node = node.left
-        return height
+        return self.left.height() if self.left else 0
 
     def right_subtree_height(self) -> int:
-        height = 0
-        node = self.right
-        while node:
-            height += 1
-            node = node.right
-        return height
+        return self.right.height() if self.right else 0
 
     def height(self) -> int:
         return 1 + max(self.left_subtree_height(), self.right_subtree_height())
 
     def calculate_balance(self) -> int:
-        left_height = self.left.height() if self.left else 0
-        right_height = self.right.height() if self.right else 0
+        left_height = self.left_subtree_height()
+        right_height = self.right_subtree_height()
         self.balance = right_height - left_height
         return self.balance
 
@@ -218,7 +208,8 @@ class BST:
         Moves node's sub-tree from src to dest.
         """
 
-        dest.parent = src.parent
+        if dest:
+            dest.parent = src.parent
 
         if src.has_no_parent():
             self.root = dest
@@ -245,7 +236,7 @@ class AVL(BST):
         return removed_node_parent
 
     def _rebalance_on_insert(self, node):
-        if abs(node.balance) >= 2:
+        if abs(node.balance) > 1:
             self._rebalance(node)
             return
 
@@ -259,9 +250,9 @@ class AVL(BST):
                 self._rebalance_on_insert(node.parent)
 
     def _rebalance_on_remove(self, node):
-        if abs(node.balance) >= 2:
+        if abs(node.balance) > 1:
             self._rebalance(node)
-            return
+            node = node.parent
 
         if node.parent:
             if node.parent.left == node:
@@ -285,17 +276,8 @@ class AVL(BST):
     def _rotate_left(self, node):
         pivot = node.right
 
-        node.right = pivot.left
-        if pivot.has_left_child():
-            pivot.left.parent = node
-
-        pivot.parent = node.parent
-        if node.has_no_parent():
-            self.root = pivot
-        elif node.parent.left == node:
-            node.parent.left = pivot
-        else:
-            node.parent.right = pivot
+        self.replace_node(node.right, pivot.left)
+        self.replace_node(node, pivot)
 
         pivot.left = node
         node.parent = pivot
@@ -306,17 +288,8 @@ class AVL(BST):
     def _rotate_right(self, node):
         pivot = node.left
 
-        node.left = pivot.right
-        if pivot.has_right_child():
-            pivot.right.parent = node
-
-        pivot.parent = node.parent
-        if node.has_no_parent():
-            self.root = pivot
-        elif node.parent.left == node:
-            node.parent.left = pivot
-        else:
-            node.parent.right = pivot
+        self.replace_node(node.left, pivot.right)
+        self.replace_node(node, pivot)
 
         pivot.right = node
         node.parent = pivot
