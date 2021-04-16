@@ -230,19 +230,85 @@ class BST:
 
 class AVL(BST):
     def _rotate_left(self, node):
-        pass
+        pivot = node.right
+
+        node.right = pivot.left
+        if pivot.has_left_child():
+            pivot.left.parent = node
+
+        pivot.parent = node.parent
+        if node.has_no_parent():
+            self.root = pivot
+        elif node.parent.left == node:
+            node.parent.left = pivot
+        else:
+            node.parent.right = pivot
+        pivot.left = node
+        node.parent = pivot
+
+        node.balance = node.balance - 1 - max(0, pivot.balance)
+        pivot.balance = pivot.balance - 1 + min(0, node.balance)
 
     def _rotate_right(self, node):
-        pass
+        pivot = node.left
+
+        node.left = pivot.right
+        if pivot.has_right_child():
+            pivot.right.parent = node
+        pivot.parent = node.parent
+        if node.has_no_parent():
+            self.root = pivot
+        elif node.parent.left == node:
+            node.parent.left = pivot
+        else:
+            node.parent.right = pivot
+
+        pivot.right = node
+        node.parent = pivot
+
+        node.balance = node.balance + 1 - min(0, pivot.balance)
+        pivot.balance = pivot.balance + 1 + max(0, node.balance)
 
     def _rebalance(self, node):
-        pass
+        if node.balance > 0:
+            if node.right.balance < 0:
+                self._rotate_right(node.right)
+            self._rotate_left(node)
+        elif node.balance < 0:
+            if node.left.balance > 0:
+                self._rotate_left(node.left)
+            self._rotate_right(node)
 
     def _rebalance_on_insert(self, node):
-        pass
+        if abs(node.balance) >= 2:
+            self._rebalance(node)
+            return
+
+        if node.parent:
+            if node.parent.left == node:
+                node.parent.balance -= 1
+            else:
+                node.parent.balance += 1
+
+            if node.parent.balance != 0:
+                self._rebalance_on_insert(node.parent)
 
     def _rebalance_on_remove(self, node):
-        pass
+        if abs(node.balance) >= 2:
+            self._rebalance(node)
+
+        if node.parent:
+            previous_balance = node.parent.balance
+
+            if node.parent.left == node:
+                node.parent.balance += 1
+            else:
+                node.parent.balance -= 1
+
+            if previous_balance == 0 and node.parent.balance in {-1, 1}:
+                return
+
+            self._rebalance_on_remove(node.parent)
 
     def insert_node(self, item):
         new_node = super().insert_node(item)
@@ -252,7 +318,7 @@ class AVL(BST):
     def remove_node(self, item):
         removed_node_parent = super().remove_node(item)
         previous_balance = removed_node_parent.balance
-        
+
         removed_node_parent.calculate_balance()
         if previous_balance != 0 or removed_node_parent.balance not in {-1, 1}:
             self._rebalance_on_remove(removed_node_parent)

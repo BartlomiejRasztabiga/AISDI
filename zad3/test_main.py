@@ -1,6 +1,6 @@
 import pytest
 
-from trees import BST, ItemNotFoundException
+from trees import BST, AVL, ItemNotFoundException
 
 
 class TestBST:
@@ -176,3 +176,102 @@ class TestBST:
         tree.insert_node(20)
 
         assert tree.root.__str__() == "  20\n10\n  0\n"
+
+
+class TestAVL:
+    def test_insert_rotate_left_simple(self):
+        tree = AVL([10])
+        tree.insert_node(11)
+        tree.insert_node(12)
+
+        assert tree.root.item == 11
+        assert tree.root.left.item == 10
+        assert tree.root.right.item == 12
+
+    def test_insert_rotate_right_simple(self):
+        tree = AVL([12])
+        tree.insert_node(11)
+        tree.insert_node(10)
+
+        assert tree.root.item == 11
+        assert tree.root.left.item == 10
+        assert tree.root.right.item == 12
+
+    def test_insert_right_heavy(self):
+        tree = AVL([1])
+        tree.insert_node(2)
+        tree.insert_node(3)
+        tree.insert_node(4)
+        tree.insert_node(5)
+        tree.insert_node(6)
+        tree.insert_node(7)
+
+        assert tree.root.item == 4
+        assert tree.root.left.item == 2
+        assert tree.root.left.left.item == 1
+        assert tree.root.left.right.item == 3
+        assert tree.root.right.item == 6
+        assert tree.root.right.left.item == 5
+        assert tree.root.right.right.item == 7
+
+    def test_insert_left_heavy(self):
+        tree = AVL([7])
+        tree.insert_node(6)
+        tree.insert_node(5)
+        tree.insert_node(4)
+        tree.insert_node(3)
+        tree.insert_node(2)
+        tree.insert_node(1)
+
+        assert tree.root.item == 4
+        assert tree.root.left.item == 2
+        assert tree.root.left.left.item == 1
+        assert tree.root.left.right.item == 3
+        assert tree.root.right.item == 6
+        assert tree.root.right.left.item == 5
+        assert tree.root.right.right.item == 7
+
+    def test_insert_right_left_rotation(self):
+        tree = AVL([3])
+        tree.insert_node(5)
+        tree.insert_node(4)
+
+        assert tree.root.item == 4
+        assert tree.root.left.item == 3
+        assert tree.root.right.item == 5
+
+    def test_insert_left_right_rotation(self):
+        tree = AVL([5])
+        tree.insert_node(3)
+        tree.insert_node(4)
+
+        assert tree.root.item == 4
+        assert tree.root.left.item == 3
+        assert tree.root.right.item == 5
+
+    def test_delete_rotate_left(self):
+        tree = AVL([1, 2, 3, 4])
+        tree.remove_node(2)
+
+        assert tree.root.item == 3
+        assert tree.root.left.item == 1
+        assert tree.root.right.item == 4
+
+    def test_delete_rotate_right(self):
+        tree = AVL([50, 40, 60, 30, 45, 55, 10])
+        tree.remove_node(55)
+
+        assert tree.root.item == 40
+        assert tree.root.left.item == 30
+        assert tree.root.left.left.item == 10
+        assert tree.root.right.item == 50
+        assert tree.root.right.left.item == 45
+        assert tree.root.right.right.item == 60
+
+    def test_delete_rotate_right2(self):
+        tree = AVL([50, 40, 60, 45])
+        tree.remove_node(60)
+
+        assert tree.root.item == 45
+        assert tree.root.left.item == 40
+        assert tree.root.right.item == 50
