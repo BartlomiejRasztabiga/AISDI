@@ -275,3 +275,19 @@ class TestAVL:
         assert tree.root.item == 45
         assert tree.root.left.item == 40
         assert tree.root.right.item == 50
+
+    def test_delete_complex(self):
+        tree = AVL([16, 5, 19, 2, 13, 18, 25, 4, 6, 15, 22, 10])
+        tree.remove_node(18)
+
+        assert tree.root.item == 13
+        assert tree.root.left.item == 5
+        assert tree.root.left.left.item == 2
+        assert tree.root.left.left.right.item == 4
+        assert tree.root.left.right.item == 6
+        assert tree.root.left.right.right.item == 10
+        assert tree.root.right.item == 16
+        assert tree.root.right.left.item == 15
+        assert tree.root.right.right.item == 22
+        assert tree.root.right.right.left.item == 19
+        assert tree.root.right.right.right.item == 25
