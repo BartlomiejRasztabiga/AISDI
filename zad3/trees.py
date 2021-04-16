@@ -151,14 +151,14 @@ class BST:
         """
         node = self.find_node(item)
 
+        # item not in the tree, throw exception
+        if node is None:
+            raise ItemNotFoundException()
+
         # if node had duplicates, decrement count and return
         if node.has_duplicates():
             node.duplicates -= 1
             return None
-
-        # item not in the tree, throw exception
-        if node is None:
-            raise ItemNotFoundException()
 
         # node has both children, find replacement node
         # with smallest value in right sub-tree.

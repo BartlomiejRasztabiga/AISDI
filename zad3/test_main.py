@@ -88,7 +88,6 @@ class TestBST:
         tree.insert_node(-5)
         tree.insert_node(15)
         tree.insert_node(1)
-        tree.insert_node(-5)
         tree.insert_node(-10)
 
         tree.remove_node(-5)
