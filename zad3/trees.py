@@ -211,5 +211,23 @@ class BST:
 
 
 class AVL(BST):
-    pass
+    def _rotate_left(self, node):
+        pass
 
+    def _rotate_right(self, node):
+        pass
+
+    def _rebalance(self, node):
+        pass
+
+    def _rebalance_on_insert(self, node):
+        pass
+
+    def _rebalance_on_remove(self, node):
+        pass
+
+    def insert_node(self, item):
+        pass
+
+    def remove_node(self, item):
+        pass
