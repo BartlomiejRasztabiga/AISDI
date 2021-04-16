@@ -47,7 +47,7 @@ def test_delete_left():
     assert tree.find_node(-5) is None
 
 
-def test_delete_no_children():
+def test_delete_left_no_children():
     tree = BST([10])
     tree.insert_node(0)
     tree.insert_node(20)
@@ -61,6 +61,20 @@ def test_delete_no_children():
     assert len(tree) == 6
     assert tree.root.left.left.item == -5
     assert tree.find_node(-10) is None
+
+
+def test_delete_right_no_children():
+    tree = BST([3])
+    tree.insert_node(1)
+    tree.insert_node(5)
+    tree.insert_node(4)
+    tree.insert_node(8)
+
+    tree.remove_node(8)
+
+    assert len(tree) == 4
+    assert tree.root.right.right is None
+    assert tree.find_node(8) is None
 
 
 def test_delete_single_node():
@@ -89,19 +103,63 @@ def test_delete_left_with_duplicates():
     assert tree.find_node(-5) is None
 
 
-def test_delete_root():
-    tree = BST([10])
-    tree.insert_node(0)
-    tree.insert_node(20)
-    tree.insert_node(-5)
-    tree.insert_node(15)
+def test_delete1():
+    tree = BST([2])
     tree.insert_node(1)
-    tree.insert_node(-10)
+    tree.insert_node(5)
+    tree.insert_node(3)
+    tree.insert_node(8)
+    tree.insert_node(4)
 
-    tree.remove_node(10)
+    tree.remove_node(2)
 
-    assert len(tree) == 6
-    assert tree.root.item == 15
+    assert len(tree) == 5
+    assert tree.root.item == 3
+
+
+def test_delete2():
+    tree = BST([2])
+    tree.insert_node(1)
+    tree.insert_node(5)
+    tree.insert_node(3)
+    tree.insert_node(8)
+
+    tree.remove_node(2)
+
+    assert len(tree) == 4
+    assert tree.root.item == 3
+
+
+def test_delete3():
+    tree = BST([2])
+    tree.insert_node(1)
+    tree.insert_node(5)
+
+    tree.remove_node(2)
+
+    assert len(tree) == 2
+    assert tree.root.item == 5
+
+
+def test_delete4():
+    tree = BST([2])
+    tree.insert_node(1)
+    tree.insert_node(5)
+
+    tree.remove_node(2)
+
+    assert len(tree) == 2
+    assert tree.root.item == 5
+
+
+def test_delete5():
+    tree = BST([2])
+    tree.insert_node(5)
+
+    tree.remove_node(2)
+
+    assert len(tree) == 1
+    assert tree.root.item == 5
 
 
 def test_delete_non_existing():

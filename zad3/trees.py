@@ -1,15 +1,8 @@
 import os
 
-outputdebug = True
-
 
 class ItemNotFoundException(Exception):
     pass
-
-
-def debug(msg):
-    if outputdebug:
-        print(msg)
 
 
 class TreeNode:
@@ -43,11 +36,11 @@ class TreeNode:
             node = node.left
         return node
 
-    def rightmost_down(self):
-        node = self
-        while node.right:
-            node = node.right
-        return node
+    # def rightmost_down(self):
+    #     node = self
+    #     while node.right:
+    #         node = node.right
+    #     return node
 
     def count_nodes(self):
         """
@@ -56,6 +49,30 @@ class TreeNode:
         return 1 \
                + (self.left.count_nodes() if self.left else 0) \
                + (self.right.count_nodes() if self.right else 0)
+
+    def has_both_children(self):
+        """
+        Returns True if node has both left and right children
+        """
+        return self.left and self.right
+
+    def has_left_child(self):
+        """
+        Returns True if node has left child
+        """
+        return self.left is not None
+
+    def has_right_child(self):
+        """
+        Returns True if node has right child
+        """
+        return self.right is not None
+
+    def has_no_parent(self):
+        """
+        Returns True if node has no parent
+        """
+        return self.parent is None
 
 
 class BST:
@@ -77,10 +94,12 @@ class BST:
 
     def insert_node(self, item):
         """
-        Inserts an item into a tree.
-        If this item already existed, its duplicates count is incremented.
+        Inserts new item into a tree.
+        If this item already exists, then its duplicates count is incremented.
         Returns the Node associated with this item.
         """
+
+        # if no root, set new root
         if self.root is None:
             self.root = TreeNode(item)
             return self.root
@@ -88,6 +107,7 @@ class BST:
         branch = self.root
         node = self.root
 
+        # find node which should be the parent of newly inserted node
         while branch is not None:
             node = branch
 
@@ -96,9 +116,11 @@ class BST:
             elif item > node.item:
                 branch = node.right
             else:
+                # if item already exists, increment duplicates count
                 node.duplicates += 1
                 return node
 
+        # link new node to its parent
         new_node = TreeNode(item)
         new_node.parent = node
 
@@ -111,39 +133,40 @@ class BST:
 
     def remove_node(self, item):
         """
-        Remove an element from a tree.
-        If this item had duplicates, its duplicates count is decremented.
-        Return parent of an un-linked node.
+        Removes an element from the tree.
+        If this item had duplicates, then its duplicates count is decremented.
+        Returns parent of the deleted node.
         """
         node = self.find_node(item)
 
+        # item not in the tree, throw exception
         if node is None:
             raise ItemNotFoundException()
 
-        # TODO: add comments about what's going on here
-        # TODO: add utility methods
-        if node.left and node.right:
-            replacement = node.right.leftmost_down()
-            lowest = replacement.parent
+        # node has both children, find replacement node
+        # with smallest value in right sub-tree.
+        # copy value from replacement node to node selected for deletion
+        # and remove replacement node
+        if node.has_both_children():
+            replacement_node = node.right.leftmost_down()
 
-            if replacement.right:
-                lowest = replacement.right
-                self.replace_node(replacement, replacement.right)
-            elif replacement.parent.left == replacement:
-                replacement.parent.left = None
+            if replacement_node.has_right_child():
+                self.replace_node(replacement_node, replacement_node.right)
+            elif replacement_node.parent.left == replacement_node:
+                replacement_node.parent.left = None
             else:
-                replacement.parent.right = None
+                replacement_node.parent.right = None
 
-            node.item = replacement.item
-            return lowest
-        elif node.left:
+            node.item = replacement_node.item
+            return node.parent
+        elif node.has_left_child():
             self.replace_node(node, node.left)
             return node.parent
-        elif node.right:
+        elif node.has_right_child():
             self.replace_node(node, node.right)
             return node.parent
         else:
-            if node.parent is None:
+            if node.has_no_parent():
                 self.root = None
             elif node == node.parent.left:
                 node.parent.left = None
@@ -153,24 +176,27 @@ class BST:
             return node.parent
 
     def find_node(self, item):
+        """
+        Returns node with given key (item). Returns None if not found.
+        """
         node = self.root
 
         while node is not None and node.item != item:
             if item < node.item:
                 node = node.left
-            elif item != node.item:
+            else:
                 node = node.right
 
         return node
 
     def replace_node(self, src, dest):
         """
-        Moves src sub-tree to dest.
+        Moves node from src to dest.
         """
 
         dest.parent = src.parent
 
-        if src.parent is None:
+        if src.has_no_parent():
             self.root = dest
         elif src.parent.left == src:
             src.parent.left = dest
@@ -181,7 +207,3 @@ class BST:
 class AVL(BST):
     pass
 
-
-# Usage example
-if __name__ == "__main__":
-    pass

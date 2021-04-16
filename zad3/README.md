@@ -21,6 +21,8 @@ pytest test_main.py
 ## Podział pracy
 Piotr Brzeziński:
 - AVL
+- Porównanie wydajności
 
 Bartłomiej Rasztabiga:
 - BST
+- Testy jednostkowe
