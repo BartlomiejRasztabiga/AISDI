@@ -36,12 +36,6 @@ class TreeNode:
             node = node.left
         return node
 
-    # def rightmost_down(self):
-    #     node = self
-    #     while node.right:
-    #         node = node.right
-    #     return node
-
     def count_nodes(self):
         """
         Returns number of all descendants + 1
@@ -85,9 +79,6 @@ class BST:
 
     def __str__(self):
         return os.linesep + self.root.string_representation(depth=2) + os.linesep
-
-    def __contains__(self, item):
-        return self.find_node(item) is not None
 
     def __len__(self):
         return 0 if self.root is None else self.root.count_nodes()

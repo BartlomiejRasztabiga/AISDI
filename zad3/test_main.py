@@ -189,11 +189,3 @@ def test_print_node():
     tree.insert_node(20)
 
     assert tree.root.__str__() == "  20\n10\n  0\n"
-
-
-def test_contains_method():
-    tree = BST([10])
-    tree.insert_node(0)
-    tree.insert_node(20)
-
-    assert 0 in tree
