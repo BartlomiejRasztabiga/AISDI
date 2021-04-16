@@ -140,9 +140,11 @@ class BST:
         # and remove replacement node
         if node.has_both_children():
             replacement_node = node.right.leftmost_down()
+            replacement_node_parent = replacement_node.parent
 
             # unlink replacement_node
             if replacement_node.has_right_child():
+                replacement_node_parent = replacement_node.right
                 self.replace_node(replacement_node, replacement_node.right)
             elif replacement_node.parent.left == replacement_node:
                 replacement_node.parent.left = None
@@ -151,7 +153,7 @@ class BST:
 
             # swap values of node and replacement node
             node.item = replacement_node.item
-            return node.parent
+            return replacement_node_parent
         # node has only left child
         # move sub-tree to node selected for deletion
         elif node.has_left_child():
