@@ -273,7 +273,13 @@ class AVL(BST):
 
     def _rebalance_on_remove(self, node):
         if abs(node.balance) > 1:
+            new_root = self._root_after_rebalance(node)
+            new_root_prev_balance = new_root.balance
+
             self._rebalance(node)
+            if new_root_prev_balance == 0 and new_root.balance in {-1, 1}:
+                return
+
             node = node.parent
 
         if node.parent:
@@ -282,7 +288,7 @@ class AVL(BST):
             else:
                 node.parent.balance -= 1
 
-            if node.parent.balance != 0:
+            if node.parent.balance != 0 or node.parent.balance not in {-1, 1}:
                 self._rebalance_on_remove(node.parent)
 
     def _rebalance(self, node):
@@ -294,6 +300,28 @@ class AVL(BST):
             if node.left.balance > 0:
                 self._rotate_left(node.left)
             self._rotate_right(node)
+
+    def _root_after_rebalance(self, node):
+        """Returns the new root, which will replace `node` after `_rebalance(node)`"""
+        if node.balance > 0:
+            assert node.right
+            if node.right.balance < 0:
+                # R-L Rotation
+                assert node.right.left
+                return node.right.left
+            else:
+                # L Rotation
+                return node.right
+
+        else:
+            assert node.left
+            if node.left.balance > 0:
+                # L-R Rotation
+                assert node.left.right
+                return node.left.right
+            else:
+                # R Rotation
+                return node.left
 
     def _rotate_left(self, node):
         pivot = node.right
