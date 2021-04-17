@@ -62,9 +62,9 @@ class TreeNode:
         """
         return self.right is not None
 
-    def has_no_parent(self):
+    def is_root(self):
         """
-        Returns True if node has no parent
+        Returns True if node is root
         """
         return self.parent is None
 
@@ -192,7 +192,7 @@ class BST:
         # node has no children
         # unlink it from the parent
         else:
-            if node.has_no_parent():
+            if node.is_root():
                 self.root = None
             elif node == node.parent.left:
                 node.parent.left = None
@@ -227,7 +227,7 @@ class BST:
         if dest:
             dest.parent = src.parent
 
-        if src.has_no_parent():
+        if src.is_root():
             self.root = dest
         elif src.parent.left == src:
             src.parent.left = dest
@@ -293,10 +293,12 @@ class AVL(BST):
 
     def _rebalance(self, node):
         if node.balance > 0:
+            assert node.right
             if node.right.balance < 0:
                 self._rotate_right(node.right)
             self._rotate_left(node)
         elif node.balance < 0:
+            assert node.left
             if node.left.balance > 0:
                 self._rotate_left(node.left)
             self._rotate_right(node)
