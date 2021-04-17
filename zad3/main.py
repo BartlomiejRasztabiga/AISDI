@@ -16,9 +16,8 @@ def main():
 def compare_tree_creation():
     results = {}
     count = [(n + 1) * 1000 for n in range(10)]
-
     for n in count:
-        content = np.random.randint(low=1, high=10000, size=n).tolist()
+        content = generate_input_data(n)
 
         bst_results = run_bst_tree_creation(content)
         avl_results = run_avl_tree_creation(content)
@@ -38,6 +37,10 @@ def run_avl_tree_creation(content):
     timer = timeit.Timer(lambda _content=content: AVL(lst=_content))
     time = timer.timeit(num_of_repetitions)
     return time / num_of_repetitions
+
+
+def generate_input_data(size):
+    return np.random.randint(low=1, high=10000, size=size).tolist()
 
 
 if __name__ == "__main__":
