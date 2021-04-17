@@ -179,6 +179,7 @@ class BST:
 
             # swap values of node and replacement node
             node.item = replacement_node.item
+            node.duplicates = replacement_node.duplicates
             return replacement_node_parent
         # node has only left child
         # move sub-tree to node selected for deletion
