@@ -283,12 +283,14 @@ class AVL(BST):
             node = node.parent
 
         if node.parent:
+            previous_balance = node.parent.balance
+
             if node.parent.left == node:
                 node.parent.balance += 1
             else:
                 node.parent.balance -= 1
 
-            if node.parent.balance != 0 or node.parent.balance not in {-1, 1}:
+            if previous_balance != 0 or node.parent.balance not in {-1, 1}:
                 self._rebalance_on_remove(node.parent)
 
     def _rebalance(self, node):
