@@ -200,6 +200,10 @@ class BST:
 
             return node.parent
 
+    def remove_nodes(self, items):
+        for item in items:
+            self.remove_node(item)
+
     def find_node(self, item):
         """
         Returns node with given key (item). Returns None if not found.
