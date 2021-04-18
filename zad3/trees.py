@@ -62,9 +62,9 @@ class TreeNode:
         """
         return self.right is not None
 
-    def has_no_parent(self):
+    def is_root(self):
         """
-        Returns True if node has no parent
+        Returns True if node is root
         """
         return self.parent is None
 
@@ -179,6 +179,7 @@ class BST:
 
             # swap values of node and replacement node
             node.item = replacement_node.item
+            node.duplicates = replacement_node.duplicates
             return replacement_node_parent
         # node has only left child
         # move sub-tree to node selected for deletion
@@ -191,7 +192,7 @@ class BST:
         # node has no children
         # unlink it from the parent
         else:
-            if node.has_no_parent():
+            if node.is_root():
                 self.root = None
             elif node == node.parent.left:
                 node.parent.left = None
@@ -199,6 +200,10 @@ class BST:
                 node.parent.right = None
 
             return node.parent
+
+    def remove_nodes(self, items):
+        for item in items:
+            self.remove_node(item)
 
     def find_node(self, item):
         """
@@ -222,7 +227,7 @@ class BST:
         if dest:
             dest.parent = src.parent
 
-        if src.has_no_parent():
+        if src.is_root():
             self.root = dest
         elif src.parent.left == src:
             src.parent.left = dest
@@ -268,16 +273,24 @@ class AVL(BST):
 
     def _rebalance_on_remove(self, node):
         if abs(node.balance) > 1:
+            new_root = self._new_root_after_rebalance(node)
+            new_root_prev_balance = new_root.balance
+
             self._rebalance(node)
+            if new_root_prev_balance == 0 and new_root.balance in {-1, 1}:
+                return
+
             node = node.parent
 
         if node.parent:
+            previous_balance = node.parent.balance
+
             if node.parent.left == node:
                 node.parent.balance += 1
             else:
                 node.parent.balance -= 1
 
-            if node.parent.balance != 0:
+            if previous_balance != 0 or node.parent.balance not in {-1, 1}:
                 self._rebalance_on_remove(node.parent)
 
     def _rebalance(self, node):
@@ -289,6 +302,22 @@ class AVL(BST):
             if node.left.balance > 0:
                 self._rotate_left(node.left)
             self._rotate_right(node)
+
+    def _new_root_after_rebalance(self, node):
+        """
+        Returns the new root, which will replace node after rebalance
+        """
+        if node.balance > 0:
+            if node.right.balance < 0:
+                return node.right.left
+            else:
+                return node.right
+
+        else:
+            if node.left.balance > 0:
+                return node.left.right
+            else:
+                return node.left
 
     def _rotate_left(self, node):
         pivot = node.right
