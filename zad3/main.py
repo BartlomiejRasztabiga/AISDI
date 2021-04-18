@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from trees import BST, AVL
 
-num_of_repetitions = 100  # num of repetitions to get avg time
+num_of_repetitions = 10  # num of repetitions to get avg time
 results_folder = "results"
 
 
@@ -67,7 +67,7 @@ def plot_node_removal(results):
     plt.xlabel('amount of removed elements')
     plt.ylabel('time (s)')
     plt.title('Time needed to remove n elements from a 10k-element tree')
-    plt.xticks(list(results.keys())[4::5])
+    plt.xticks(list(results.keys())[1::2])
     plt.legend()
     plt.grid()
     plt.savefig(os.sep.join([results_folder, "graph_node_removal.png"]))
@@ -107,13 +107,13 @@ def run_tree_creation(tree_class, content):
 
 def compare_node_removal():
     results = {}
-    count = [(n + 1) * 100 for n in range(50)]
+    count = [(n + 1) * 250 for n in range(20)]
+    # constant amount of input elements throughout all tests
+    content = generate_input_data(10000)
     for n in count:
         bst_time = 0
         avl_time = 0
         for _ in range(num_of_repetitions):
-            # constant amount of input elements throughout all tests
-            content = generate_input_data(10000)
             bst_time += run_node_removal(BST, content, n)
             avl_time += run_node_removal(AVL, content, n)
 
