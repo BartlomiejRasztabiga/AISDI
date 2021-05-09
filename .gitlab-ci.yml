@@ -15,3 +15,5 @@ test:
     - pytest zad2
     - pip install -r zad3/requirements.txt
     - pytest zad3
+    - pip install -r zad4/requirements.txt
+    - pytest zad4
