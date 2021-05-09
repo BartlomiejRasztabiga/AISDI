@@ -13,6 +13,9 @@ class CustomHeap:
     def __str__(self) -> str:
         return self._print()
 
+    def __getitem__(self, key):
+        return self._list[key]
+
     def push(self, value) -> None:
         """
         Appends the given element to the 'end' of the heap
