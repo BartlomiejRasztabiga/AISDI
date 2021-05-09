@@ -1,4 +1,4 @@
-class CustomHeap():
+class CustomHeap:
     def __init__(self, children_amount: int) -> None:
         if children_amount < 2:
             raise ValueError("At least 2 children are required per node")
@@ -7,14 +7,11 @@ class CustomHeap():
         self._d = children_amount
         self._list = []
 
-
     def __len__(self) -> int:
         return len(self._list)
 
-
     def __str__(self) -> str:
         return self._print()
-
 
     def push(self, value) -> None:
         """
@@ -23,7 +20,6 @@ class CustomHeap():
         """
         self._list.append(value)
         self._shift_up(len(self) - 1)
-
 
     def _shift_up(self, index: int) -> None:
         """
@@ -42,8 +38,7 @@ class CustomHeap():
 
         self._list[index] = item
 
-
-    def _print(self, root = 0, depth = 0) -> str:
+    def _print(self, root=0, depth=0) -> str:
         result_string = ""
 
         leftmost_child = root * self._d + 1
@@ -79,4 +74,3 @@ class TernaryHeap(CustomHeap):
 class QuarternaryHeap(CustomHeap):
     def __init__(self):
         super().__init__(4)
-
