@@ -6,20 +6,19 @@ import matplotlib.pyplot as plt
 
 from algorithms import find_naive, find_kmp, find_kr
 
-num_of_repetitions = 100  # num of repetitions to get avg time
+num_of_repetitions = 10  # num of repetitions to get avg time
 results_folder = "results"
 
 
 def main():
     results_str = "Wyniki pomiarów:\n\n"
 
-    results_str += "Szukanie n słów w tekście:\n"
     substring_find_results = compare_algorithms()
-    results_str = format_results(substring_find_results) + "\n\n"
+    results_str += "Szukanie n słów w tekście:\n"
+    results_str += format_results(substring_find_results) + "\n\n"
 
     plot_all_algorithms(substring_find_results)
 
-    print(results_str)
     with codecs.open(os.sep.join([results_folder, "results.txt"]), "w", "utf-8") as file:
         file.write(results_str)
 
@@ -85,10 +84,10 @@ def get_first_n_words(lines, n):
     for line in lines:
         for word in line.strip().split():
             if len(selected_words) >= n:
-                return selected_words
+                return " ".join(selected_words)
             selected_words.append(word)
 
-    return selected_words
+    return " ".join(selected_words)
 
 
 def read_file(filename):

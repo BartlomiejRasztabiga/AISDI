@@ -1,4 +1,4 @@
-from algorithms import find_naive
+from algorithms import find_naive, find_kmp, find_kr
 
 
 class TestNaive:
@@ -8,9 +8,9 @@ class TestNaive:
 
 class TestKMP:
     def test_simple(self):
-        pass
+        assert find_kmp("abc", "dabcabcdddagdabdfabc") == [1, 4, 17]
 
 
 class TestKR:
     def test_simple(self):
-        pass
+        assert find_kr("abc", "dabcabcdddagdabdfabc") == [1, 4, 17]
