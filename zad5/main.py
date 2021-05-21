@@ -46,7 +46,7 @@ def plot_all_algorithms(results):
 
 def compare_algorithms():
     results = {}
-    count = [(n + 1) * 1000 for n in range(10)]
+    count = [n * 100 for n in range(1, 11)]  # pan tadeusz has 68 682 words
     for n in count:
         content = generate_input_data(n)
 

@@ -1,6 +1,9 @@
+from algorithms import find_naive
+
+
 class TestNaive:
     def test_simple(self):
-        pass
+        assert find_naive("abc", "dabcabcdddagdabdfabc") == [1, 4, 17]
 
 
 class TestKMP:
