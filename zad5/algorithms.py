@@ -24,6 +24,12 @@ def find_naive(string, text):
         (list): List of positions in ascending order of staring indexexs of ``string`` in``text``.
     """
     found = []
+
+    substr_len = len(string)
+    text_len = len(text)
+    if substr_len == 0 or text_len == 0 or substr_len > text_len:
+        return found
+
     for (index, substring) in generate_substrings(text, len(string)):
         if substring == string:
             found.append(index)
@@ -66,6 +72,8 @@ def find_kmp(string, text):
         (list): List of positions in ascending order of staring indexexs of ``string`` in``text``.
     """
     substr_len = len(string)
+    if substr_len == 0:
+        return []
 
     kmp_table = kmp_build_partial_match_table(string)
     matches = []
@@ -148,9 +156,8 @@ def find_kr(string, text):
     Returns:
         (list): List of positions in ascending order of staring indexexs of ``string`` in``text``.
     """
-    if not string:
-        print('DUPA')
-        return list(range(len(text) + 1))
+    if len(string) == 0:
+        return []
 
     string_hash = kr_initial_hash(string)
 
