@@ -5,7 +5,7 @@ from typing import Tuple, Dict, List
 
 # typedef
 Point = Tuple[int, int]
-QueueElement = Tuple[Point, float, List[Point]]  # (point, cost, route)
+QueueElement = Tuple[float, Point, List[Point]]  # (point, cost, route)
 
 
 class NoStartOrEndNode(ValueError):
@@ -51,11 +51,11 @@ class Graph(Dict[Point, int]):
 
         start, end = self._start_and_end_nodes()
         costs: Dict[Point, float] = {start: 0}
-        queue: List[QueueElement] = [(start, 0, [start])]
+        queue: List[QueueElement] = [(0, start, [start])]
 
         while queue:
             # get next point from queue
-            point, cost, path = heapq.heappop(queue)
+            cost, point, path = heapq.heappop(queue)
 
             # ignore if we already have a better path
             if cost > costs.get(end, inf):
@@ -72,7 +72,7 @@ class Graph(Dict[Point, int]):
                 # if this route is better than any found earlier, push it to the queue
                 if neighbour_cost < costs.get(neighbour, inf):
                     costs[neighbour] = neighbour_cost
-                    heapq.heappush(queue, (neighbour, neighbour_cost, path + [neighbour]))
+                    heapq.heappush(queue, (neighbour_cost, neighbour, path + [neighbour]))
 
         # end never reached - no possible path exists
         raise NoPathExists()
@@ -118,8 +118,12 @@ def main():
     else:
         filename = sys.argv[1]
         input_matrix = read_file(filename)
+
         graph = Graph()
         graph.init_from_matrix(input_matrix)
+        path = graph.shortest_path()
+        costs = graph.costs_for_path(path)
+        print(prettify_path(path, costs))
 
 
 def read_file(filename):
