@@ -103,7 +103,7 @@ class Graph(Dict[Point, int]):
 def prettify_path(path: List[Point], costs: Dict[Point, int]) -> str:
     width = max(point[0] for point in path) + 1
     height = max(point[1] for point in path) + 1
-    chars = [[" "] * width for _ in range(height)]
+    chars = [["*"] * width for _ in range(height)]
 
     for point in path:
         chars[point[1]][point[0]] = str(costs[point])
