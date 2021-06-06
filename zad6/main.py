@@ -1,10 +1,9 @@
-import sys
 import heapq
-from math import cos, inf
-
-# typedef
+import sys
+from math import inf
 from typing import Tuple, Dict, List
 
+# typedef
 Point = Tuple[int, int]
 QueueElement = Tuple[Point, float, List[Point]]  # (point, cost, route)
 
@@ -51,7 +50,7 @@ class Graph(Dict[Point, int]):
         """
 
         start, end = self._start_and_end_nodes()
-        costs: Dict[Point, float] = { start: 0 }
+        costs: Dict[Point, float] = {start: 0}
         queue: List[QueueElement] = [(start, 0, [start])]
 
         while queue:
